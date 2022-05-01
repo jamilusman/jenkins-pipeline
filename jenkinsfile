@@ -1,27 +1,13 @@
-// node {
-//   stage('SCM') {
-//     checkout scm
-//   }
-//   stage('SonarQube Analysis') {
-//     def scannerHome = tool 'SonarScanner for MSBuild'
-//     withSonarQubeEnv() {
-//       bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"dotnet-docker\""
-//       bat "dotnet build"
-//       bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
-//     }
-//   }
-// }
-
-
 node {
   stage('SCM') {
     checkout scm
   }
   stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarQube Scanner';
+    def scannerHome = tool 'SonarScanner for MSBuild'
     withSonarQubeEnv() {
-      sh "${scannerHome}C:/Users/admin/Desktop/DevOps Practice/sonar-scanner-4.7.0.2747-windows/bin/sonar-scanner"
+      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"dotnet-docker\""
+      bat "dotnet build"
+      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
     }
   }
 }
-
