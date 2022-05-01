@@ -1,26 +1,26 @@
-// node {
-//     checkout([
-//          $class: 'GitSCM',
-//          branches: scm.branches,
-//          doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-//          extensions: scm.extensions,
-//          userRemoteConfigs: scm.userRemoteConfigs
-//     ])
-//  }
+node {
+    checkout([
+         $class: 'GitSCM',
+         branches: scm.branches,
+         doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+         extensions: scm.extensions,
+         userRemoteConfigs: scm.userRemoteConfigs
+    ])
+ }
 
- pipeline{
-     stages{
-         stage('Checkout') {
-            steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: scm.branches,
-                    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-                    extensions: scm.extensions,
-                    userRemoteConfigs: scm.userRemoteConfigs
-                ])
-            }
-        }
+//  pipeline{
+//      stages{
+//          stage('Checkout') {
+//             steps {
+//                 checkout([
+//                     $class: 'GitSCM',
+//                     branches: scm.branches,
+//                     doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+//                     extensions: scm.extensions,
+//                     userRemoteConfigs: scm.userRemoteConfigs
+//                 ])
+//             }
+//         }
         
     //     stage('Build + SonarQube analysis') {
     //         def sqScannerMsBuildHome = tool 'Scanner for MSBuild 4.6'
@@ -31,4 +31,4 @@
     //         }
     //     }
     //  }
- }
+//  }
