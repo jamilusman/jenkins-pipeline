@@ -1,12 +1,16 @@
 // node {
-//     checkout([
-//          $class: 'GitSCM',
-//          branches: scm.branches,
-//          doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-//          extensions: scm.extensions,
-//          userRemoteConfigs: scm.userRemoteConfigs
-//     ])
-//  }
+//   stage('SCM') {
+//     checkout scm
+//   }
+//   stage('SonarQube Analysis') {
+//     def scannerHome = tool 'SonarScanner for MSBuild'
+//     withSonarQubeEnv() {
+//       bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"dotnet-docker\""
+//       bat "dotnet build"
+//       bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
+//     }
+//   }
+// }
 
 
 node {
@@ -14,11 +18,9 @@ node {
     checkout scm
   }
   stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarScanner for MSBuild'
+    def scannerHome = tool 'SonarQube Scanner';
     withSonarQubeEnv() {
-      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"dotnet-docker\""
-      bat "dotnet build"
-      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
+      sh "${scannerHome}/bin/sonar-scanner"
     }
   }
 }
