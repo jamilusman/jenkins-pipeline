@@ -1,34 +1,24 @@
-node {
-    checkout([
-         $class: 'GitSCM',
-         branches: scm.branches,
-         doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-         extensions: scm.extensions,
-         userRemoteConfigs: scm.userRemoteConfigs
-    ])
- }
-
-//  pipeline{
-//      stages{
-//          stage('Checkout') {
-//             steps {
-//                 checkout([
-//                     $class: 'GitSCM',
-//                     branches: scm.branches,
-//                     doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-//                     extensions: scm.extensions,
-//                     userRemoteConfigs: scm.userRemoteConfigs
-//                 ])
-//             }
-//         }
-        
-    //     stage('Build + SonarQube analysis') {
-    //         def sqScannerMsBuildHome = tool 'Scanner for MSBuild 4.6'
-    //         withSonarQubeEnv('My SonarQube Server') {
-    //         bat "${sqScannerMsBuildHome}\\SonarQube.Scanner.MSBuild.exe begin /k:myKey"
-    //         bat 'MSBuild.exe /t:Rebuild'
-    //         bat "${sqScannerMsBuildHome}\\SonarQube.Scanner.MSBuild.exe end"
-    //         }
-    //     }
-    //  }
+// node {
+//     checkout([
+//          $class: 'GitSCM',
+//          branches: scm.branches,
+//          doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+//          extensions: scm.extensions,
+//          userRemoteConfigs: scm.userRemoteConfigs
+//     ])
 //  }
+
+
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def scannerHome = tool 'SonarScanner for MSBuild'
+    withSonarQubeEnv() {
+      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll begin /k:\"dotnet-docker\""
+      bat "dotnet build"
+      bat "dotnet ${scannerHome}\\SonarScanner.MSBuild.dll end"
+    }
+  }
+}
