@@ -20,7 +20,7 @@ node {
   stage('SonarQube Analysis') {
     def scannerHome = tool 'SonarQube Scanner';
     withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
+      sh "${scannerHome}C:\Users\admin\Desktop\DevOps Practice\sonar-scanner-4.7.0.2747-windows\bin\sonar-scanner"
     }
   }
 }
